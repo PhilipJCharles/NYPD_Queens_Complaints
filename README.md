@@ -1,4 +1,3 @@
-```markdown
 # Queens Reported Crime Analysis
 
 ## Project Overview
@@ -113,4 +112,4 @@ The following columns were removed because they were not required for the curren
 Latitude and longitude were removed because the current analysis uses police precincts rather than individual coordinate-level mapping.
 
 These fields may be restored if geographic mapping is added later.
-```
+
