@@ -113,3 +113,48 @@ Latitude and longitude were removed because the current analysis uses police pre
 
 These fields may be restored if geographic mapping is added later.
 
+## Data Cleaning
+
+The following data-cleaning and validation steps were performed on the Queens complaint dataset.
+
+### Data-Type Standardization
+
+- Converted `Incident_StartDate` from General to Date.
+- Converted `Incident_EndDate` from General to Date.
+- Converted `Incident_StartTime` from General to Time.
+- Converted `Precinct_Code` from General to a standardized identifier format.
+- Converted `Reported_Date` from General to Date.
+
+### Identifier Standardization
+
+- Removed unwanted punctuation from `Precinct_Code`.
+- Removed unwanted punctuation from `Offense_Classification_Code`.
+- Removed unwanted punctuation from `Detailed_Offense_Code`.
+- Verified that code columns contained consistently formatted values.
+
+### Missing-Value Standardization
+
+Converted literal `(null)` values into blank cells in the following columns:
+
+- `Incident_EndTime`
+- `Crime_Completion_Status`
+- `Suspect_Age_Group`
+- `Suspect_Race`
+- `Suspect_Sex`
+- `Victim_Sex`
+
+Standardized `UNKNOWN` values in the following columns:
+
+- `Victim_Age_Group`
+- `Victim_Race`
+
+### Error Handling
+
+- Identified `#VALUE!` errors in `Incident_StartDate`.
+- Replaced invalid date errors with blank values so the column could be converted to a consistent date type.
+
+### Duplicate Validation
+
+- Checked `Complaint_ID` for duplicate values.
+- No duplicate complaint IDs were found.
+
