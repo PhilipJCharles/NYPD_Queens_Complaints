@@ -113,48 +113,69 @@ Latitude and longitude were removed because the current analysis uses police pre
 
 These fields may be restored if geographic mapping is added later.
 
-## Data Cleaning
+## Data Cleaning and Validation
 
 The following data-cleaning and validation steps were performed on the Queens complaint dataset.
 
 ### Data-Type Standardization
 
-- Converted `Incident_StartDate` from General to Date.
-- Converted `Incident_EndDate` from General to Date.
-- Converted `Incident_StartTime` from General to Time.
-- Converted `Precinct_Code` from General to a standardized identifier format.
-- Converted `Reported_Date` from General to Date.
+* Converted `Incident_StartDate` from General to Date.
+* Converted `Incident_EndDate` from General to Date.
+* Converted `Incident_StartTime` from General to Time.
+* Converted `Precinct_Code` from General to a standardized text-based identifier format.
+* Converted `Reported_Date` from General to Date.
 
 ### Identifier Standardization
 
-- Removed unwanted punctuation from `Precinct_Code`.
-- Removed unwanted punctuation from `Offense_Classification_Code`.
-- Removed unwanted punctuation from `Detailed_Offense_Code`.
-- Verified that code columns contained consistently formatted values.
+* Removed unwanted punctuation from `Precinct_Code`.
+* Removed unwanted punctuation from `Offense_Classification_Code`.
+* Removed unwanted punctuation from `Detailed_Offense_Code`.
+* Stored identifier columns as text to preserve their categorical meaning and prevent unintended numeric formatting.
 
 ### Missing-Value Standardization
 
-Converted literal `(null)` values into blank cells in the following columns:
+Converted literal `(null)` values to blank cells in the following columns:
 
-- `Incident_EndTime`
-- `Crime_Completion_Status`
-- `Suspect_Age_Group`
-- `Suspect_Race`
-- `Suspect_Sex`
-- `Victim_Sex`
+* `Incident_EndTime`
+* `Crime_Completion_Status`
+* `Suspect_Age_Group`
+* `Suspect_Race`
+* `Suspect_Sex`
+* `Victim_Sex`
 
-Standardized `UNKNOWN` values in the following columns:
+A total of **306,000 cell values** containing `(null)` were replaced with blanks.
 
-- `Victim_Age_Group`
-- `Victim_Race`
+### Category Standardization
+
+Standardized inconsistent category labels to improve consistency during analysis:
+
+* Replaced `UNKNOWN` with `Unknown` in `Victim_Age_Group` and `Victim_Race`: **79,000 replacements**
+* Replaced `U` with `Unknown` in `Suspect_Sex` and `Victim_Sex`: **143,000 replacements**
+* Replaced `M` with `Male` in `Suspect_Sex` and `Victim_Sex`: **579,000 replacements**
+* Replaced `F` with `Female` in `Suspect_Sex` and `Victim_Sex`: **342,000 replacements**
 
 ### Error Handling
 
-- Identified `#VALUE!` errors in `Incident_StartDate`.
-- Replaced invalid date errors with blank values so the column could be converted to a consistent date type.
+* Identified `#VALUE!` errors in `Incident_StartDate`.
+* Replaced **26 invalid date values** with blanks so the column could be converted to a consistent Date data type.
+* Preserved missing dates as blanks rather than assigning unsupported replacement values.
 
 ### Duplicate Validation
 
-- Checked `Complaint_ID` for duplicate values.
-- No duplicate complaint IDs were found.
+* Checked `Complaint_ID` for duplicate values.
+* No duplicate complaint IDs were found.
+
+### Cleaning Impact Summary
+
+| Cleaning operation                           | Columns affected                  | Cell replacements |
+| -------------------------------------------- | --------------------------------- | ----------------: |
+| Replaced invalid date errors with blanks     | `Incident_StartDate`              |                26 |
+| Replaced literal `(null)` values with blanks | Multiple missing-value columns    |           306,000 |
+| Standardized `UNKNOWN` to `Unknown`          | `Victim_Age_Group`, `Victim_Race` |            79,000 |
+| Standardized `U` to `Unknown`                | `Suspect_Sex`, `Victim_Sex`       |           143,000 |
+| Expanded `M` to `Male`                       | `Suspect_Sex`, `Victim_Sex`       |           579,000 |
+| Expanded `F` to `Female`                     | `Suspect_Sex`, `Victim_Sex`       |           342,000 |
+| Duplicate complaint IDs found                | `Complaint_ID`                    |                 0 |
+
+> **Note:** Replacement totals represent individual cells changed. 
 
