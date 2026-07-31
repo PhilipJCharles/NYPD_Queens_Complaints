@@ -164,18 +164,3 @@ Standardized inconsistent category labels to improve consistency during analysis
 
 * Checked `Complaint_ID` for duplicate values.
 * No duplicate complaint IDs were found.
-
-### Cleaning Impact Summary
-
-| Cleaning operation                           | Columns affected                  | Cell replacements |
-| -------------------------------------------- | --------------------------------- | ----------------: |
-| Replaced invalid date errors with blanks     | `Incident_StartDate`              |                26 |
-| Replaced literal `(null)` values with blanks | Multiple missing-value columns    |           306,000 |
-| Standardized `UNKNOWN` to `Unknown`          | `Victim_Age_Group`, `Victim_Race` |            79,000 |
-| Standardized `U` to `Unknown`                | `Suspect_Sex`, `Victim_Sex`       |           143,000 |
-| Expanded `M` to `Male`                       | `Suspect_Sex`, `Victim_Sex`       |           579,000 |
-| Expanded `F` to `Female`                     | `Suspect_Sex`, `Victim_Sex`       |           342,000 |
-| Duplicate complaint IDs found                | `Complaint_ID`                    |                 0 |
-
-> **Note:** Replacement totals represent individual cells changed. 
-
